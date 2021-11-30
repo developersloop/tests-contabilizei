@@ -20,5 +20,12 @@ yarn build
 yarn lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Compile test using graphical tool. after that choose the test of your choice
+```
+yarn cypress:open
+```
+
+### Compile all tests
+```
+yarn cypress:run
+```
