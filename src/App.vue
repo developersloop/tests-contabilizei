@@ -22,8 +22,10 @@
         </div>
         <button 
           class="btn"
+          :class="disabledButton ? 'disabled' : ''"
           data-cy="submit-list"
-          @click="showList = true"
+          :disabled="showList"
+          @click="listShow"
         >
           Enviar
         </button>
@@ -48,6 +50,7 @@ export default {
     return {
       list: null,
       showList: false,
+      disabledButton: true,
     }
   },
   methods: {
@@ -55,9 +58,7 @@ export default {
       let file = $el.target.files[0]
       let reader = new FileReader()
       
-      this.$refs.cnab.style.color = 'black'
-      this.$refs.container.style.height = 'auto'
-      
+      this.$refs.cnab.style.color = 'black'      
       reader.onload = function () {
           let data = reader.result.split('****')
           let normalize = data.map(dt => {
@@ -68,9 +69,14 @@ export default {
             return vb.replaceAll('undefined', '-')
           })
           this.list = normalize
+          this.disabledButton = false
       }.bind(this)
       
       reader.readAsText(file)
+    },
+    listShow() {
+      this.$refs.container.style.height = 'auto'
+      this.showList = true
     }
   }
 }
@@ -100,6 +106,7 @@ export default {
   cursor: pointer
 }
 .btn {
+  cursor: pointer;
   margin-top: 20px;
   border: none !important;
   padding: 10px;
@@ -108,6 +115,10 @@ export default {
   color: white;
   font-weight: bold;
   font-size: 0.9em; 
+}
+.disabled {
+  background: #c0c0c0;
+  opacity: 0.50;
 }
 .customize-input {
   display: flex;
